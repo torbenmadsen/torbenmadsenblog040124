@@ -1,0 +1,105 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+// Check if user is authenticated
+const isAuthenticated = Astro.cookies.get('admin-access')?.value === 'true';
+
+if (!isAuthenticated) {
+  return Astro.redirect('/admin');
+}
+---
+
+<Layout title="New Blog Post">
+  <div class="max-w-4xl mx-auto px-4 py-8">
+    <div class="mb-8">
+      <h1 class="text-2xl font-bold">Create New Post</h1>
+    </div>
+
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+      <form action="/admin/create-post" method="POST" class="space-y-6">
+        <div>
+          <label for="title" class="block text-sm font-medium mb-1">Title</label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            required
+            class="w-full px-4 py-2 rounded-lg border dark:border-gray-700 bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-accent-light dark:focus:ring-accent-dark"
+          />
+        </div>
+
+        <div>
+          <label for="description" class="block text-sm font-medium mb-1">Description</label>
+          <input
+            type="text"
+            id="description"
+            name="description"
+            required
+            class="w-full px-4 py-2 rounded-lg border dark:border-gray-700 bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-accent-light dark:focus:ring-accent-dark"
+          />
+        </div>
+
+        <div>
+          <label for="image" class="block text-sm font-medium mb-1">Image URL</label>
+          <input
+            type="url"
+            id="image"
+            name="image"
+            required
+            placeholder="https://images.unsplash.com/..."
+            class="w-full px-4 py-2 rounded-lg border dark:border-gray-700 bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-accent-light dark:focus:ring-accent-dark"
+          />
+        </div>
+
+        <div>
+          <label for="tags" class="block text-sm font-medium mb-1">Tags (comma-separated)</label>
+          <input
+            type="text"
+            id="tags"
+            name="tags"
+            required
+            placeholder="tech, tutorial, web development"
+            class="w-full px-4 py-2 rounded-lg border dark:border-gray-700 bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-accent-light dark:focus:ring-accent-dark"
+          />
+        </div>
+
+        <div>
+          <label for="youtube" class="block text-sm font-medium mb-1">YouTube Video ID (optional)</label>
+          <input
+            type="text"
+            id="youtube"
+            name="youtube"
+            placeholder="dQw4w9WgXcQ"
+            class="w-full px-4 py-2 rounded-lg border dark:border-gray-700 bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-accent-light dark:focus:ring-accent-dark"
+          />
+        </div>
+
+        <div>
+          <label for="content" class="block text-sm font-medium mb-1">Content (Markdown)</label>
+          <textarea
+            id="content"
+            name="content"
+            required
+            rows="10"
+            class="w-full px-4 py-2 rounded-lg border dark:border-gray-700 bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-accent-light dark:focus:ring-accent-dark font-mono"
+          ></textarea>
+        </div>
+
+        <div class="flex justify-end gap-4">
+          <a
+            href="/admin/dashboard"
+            class="px-4 py-2 rounded-lg border dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+          >
+            Cancel
+          </a>
+          <button
+            type="submit"
+            class="bg-accent-light dark:bg-accent-dark text-white px-4 py-2 rounded-lg hover:opacity-90 transition-opacity"
+          >
+            Create Post
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</Layout>

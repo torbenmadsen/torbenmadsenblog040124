@@ -7,7 +7,8 @@ const blog = defineCollection({
     description: z.string(),
     pubDate: z.date(),
     image: z.string(),
-    tags: z.array(z.string())
+    tags: z.array(z.string()),
+    youtube: z.string().optional()
   })
 });
 

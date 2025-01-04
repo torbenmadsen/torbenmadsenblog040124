@@ -1,0 +1,55 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+// Check if user is authenticated
+const isAuthenticated = Astro.cookies.get('admin-access')?.value === 'true';
+
+if (!isAuthenticated) {
+  return Astro.redirect('/admin');
+}
+
+const posts = await getCollection('blog');
+const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<Layout title="Admin Dashboard">
+  <div class="max-w-6xl mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-8">
+      <h1 class="text-2xl font-bold">Admin Dashboard</h1>
+      <a
+        href="/admin/new-post"
+        class="bg-accent-light dark:bg-accent-dark text-white px-4 py-2 rounded-lg hover:opacity-90 transition-opacity"
+      >
+        New Post
+      </a>
+    </div>
+
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md">
+      <div class="p-4">
+        <h2 class="text-lg font-semibold mb-4">Recent Posts</h2>
+        <div class="space-y-4">
+          {sortedPosts.map((post) => (
+            <div class="flex items-center justify-between py-3 border-b dark:border-gray-700 last:border-0">
+              <div>
+                <h3 class="font-medium">{post.data.title}</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400">
+                  {post.data.pubDate.toLocaleDateString()}
+                </p>
+              </div>
+              <div class="flex items-center gap-2">
+                <a
+                  href={`/blog/${post.slug}`}
+                  class="text-accent-light dark:text-accent-dark hover:underline"
+                  target="_blank"
+                >
+                  View
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>

@@ -172,6 +172,13 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".md"] };
+"getting-started-with-astro.md": {
+	id: "getting-started-with-astro.md";
+  slug: "getting-started-with-astro";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".md"] };
 };
 
 	};
